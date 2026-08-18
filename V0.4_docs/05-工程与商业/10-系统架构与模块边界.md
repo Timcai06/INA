@@ -1,5 +1,5 @@
 ---
-文档版本: v0.4
+文档版本: v0.4.1
 项目阶段: Research + Phase-0 Engineering
 最后更新: 2026-08-18
 基线状态: FROZEN
