@@ -86,7 +86,7 @@ ina test <policy>
 
 | 组件 | 说明 |
 |---|---|
-| Cross-Harness Fidelity | 验证同一 Δ 在不同 Harness 上是否产生方向一致的效果 |
+| Cross-Harness Fidelity | 验证同一 Δ 在不同 Harness 上是否产生方向一致的效果：`Direction(Effect_A(Δ | F_A)) ≈ Direction(Effect_B(Δ | F_B))` |
 | 2–4 Harness Adapters | 支持 Harness Selection Criteria 候选列表中的 2-4 个 |
 | Compiler | Harness-specific realization 编译 |
 | Compatibility Matrix | Δ × Harness × Model 的兼容性矩阵 |
