@@ -71,7 +71,7 @@ ina test <policy>
 | 组件 | 说明 |
 |---|---|
 | Behavioral Delta Manifest | YAML/JSON 格式的 adaptation contract |
-| 2–4 Harness Adapters | 支持 Claude Code、Codex、OpenCode、Grok Build 中的 2-4 个 |
+| 2–4 Harness Adapters | 支持 Harness Selection Criteria 候选列表中的 2-4 个（见 [12-路线图](../05-工程与商业/12-研发路线图与阶段门禁.md) 第 13 节）；最终选择通过 ADR 决定 |
 | Baseline / Adapted Paired Replay | 同一任务在 Base Agent 和 Agent + Δ 上的对比执行 |
 | Effect Vector Evaluation | 多维度行为变化测量（不是单一分值） |
 | Against-Prior Test | 验证 Δ 是否真正改变了 Agent 的 prior |
@@ -177,5 +177,5 @@ Schema 是公开的，任何人都可以定义自己的 adaptation contract。
 |---|---|
 | 01-项目总纲 | 本卷是 01 中"产品楔子不再暂缓"的具体化 |
 | 09-评测体系 | 本卷的 eval 方法来自 09 的新 eval 类型 |
-| 12-路线图 | 本卷对应路线图的 Phase 0-2 |
+| 12-路线图 | 本卷对应路线图的 Phase 0A/0B/1 |
 | 13-风险登记 | 本卷的风险与 13 中的 R1-R9 交叉 |
