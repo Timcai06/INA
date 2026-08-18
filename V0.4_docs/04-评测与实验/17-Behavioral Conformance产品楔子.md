@@ -1,7 +1,9 @@
 ---
-文档版本: v0.4-draft
+文档版本: v0.4
 项目阶段: Research + Phase-0 Engineering
 最后更新: 2026-08-18
+基线状态: FROZEN
+冻结日期: 2026-08-18
 ---
 
 [返回文档矩阵](../00-文档矩阵与阅读路径.md)
@@ -18,7 +20,7 @@
 
 典型画像：
 
-- 团队使用 Claude Code + Codex（或 OpenCode + Grok Build）；
+- 团队使用多个 Coding Agent Harness（通过 Harness Selection Criteria 候选列表选择）；
 - 团队有明确的工程原则（如"不把用户偏好当证据""重大决策必须保留竞争方案"）；
 - 团队不确定这些原则在不同模型 / Harness / 版本中是否真的生效；
 - 团队需要可审计的证据，而不是"感觉上 Agent 听话了"。
@@ -66,18 +68,28 @@ ina test <policy>
 
 ## 4. MVP 范围
 
-### 包含
+### MVP Core（Phase 0A/0B 阶段）
 
 | 组件 | 说明 |
 |---|---|
 | Behavioral Delta Manifest | YAML/JSON 格式的 adaptation contract |
-| 2–4 Harness Adapters | 支持 Harness Selection Criteria 候选列表中的 2-4 个（见 [12-路线图](../05-工程与商业/12-研发路线图与阶段门禁.md) 第 13 节）；最终选择通过 ADR 决定 |
+| Single-Harness Adapter | 支持一个候选 Harness |
+| Baseline Fingerprint Capture | 自动采集和验证 Agent 基线指纹 |
 | Baseline / Adapted Paired Replay | 同一任务在 Base Agent 和 Agent + Δ 上的对比执行 |
 | Effect Vector Evaluation | 多维度行为变化测量（不是单一分值） |
 | Against-Prior Test | 验证 Δ 是否真正改变了 Agent 的 prior |
 | Regression Test | 验证目标行为改善的同时其他能力没有退化 |
-| Cross-Harness Fidelity | 验证同一 Δ 在不同 Harness 上是否产生方向一致的效果 |
+| Baseline Drift Detection | 检测模型 / Harness 升级后的基线漂移 |
 | CI Report | 结构化报告，可集成到 CI 流程 |
+
+### Conditional Expansion（Phase 1+，只有 INA 未被 H0-Skill 杀死后才加入）
+
+| 组件 | 说明 |
+|---|---|
+| Cross-Harness Fidelity | 验证同一 Δ 在不同 Harness 上是否产生方向一致的效果 |
+| 2–4 Harness Adapters | 支持 Harness Selection Criteria 候选列表中的 2-4 个 |
+| Compiler | Harness-specific realization 编译 |
+| Compatibility Matrix | Δ × Harness × Model 的兼容性矩阵 |
 
 ### 不包含
 
@@ -95,21 +107,40 @@ ina test <policy>
 ```text
 用户编写 Behavioral Delta Manifest
         ↓
-ina test <policy> --harness claude,codex
+ina test <policy> --harness <candidate-a>,<candidate-b>
         ↓
 ┌─────────────────────────────────────┐
 │ 对每个 Harness:                      │
-│   1. Baseline 执行 (Agent only)      │
-│   2. Adapted 执行 (Agent + Δ)        │
-│   3. Effect Vector 提取              │
-│   4. Against-Prior 验证              │
-│   5. Regression 检查                 │
+│   1. Capture Baseline Fingerprint   │
+│   2. Validate Fingerprint Integrity │
+│   3. Baseline 执行 (Agent only)     │
+│   4. Adapted 执行 (Agent + Δ)       │
+│   5. Fingerprint Equality Check     │
+│   6. Effect Vector 提取             │
+│   7. Against-Prior 验证             │
+│   8. Regression 检查                │
 └─────────────────────────────────────┘
         ↓
-Cross-Harness Fidelity 计算
+Cross-Harness Fidelity 计算（如适用）
         ↓
 CI Report (PASS / FAIL + 详情)
 ```
+
+产品输出必须明确展示：
+
+```text
+Policy / Contract Version
+Baseline Fingerprint
+Harness Version
+Model Version
+Realization Hash
+Evaluation Contract Version
+Conformance Result
+```
+
+产品价值中增加：
+
+> 模型或 Harness 升级后，自动识别 Baseline Drift 并要求重新验证。
 
 ## 6. Moat 分析
 
