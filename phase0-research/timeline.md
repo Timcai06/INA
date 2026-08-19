@@ -32,7 +32,7 @@ W1  W2  W3  W4  W5  W6  W7  W8  W9  W10 W11 W12 W13 W14 W15
 ## 门禁规则
 
 1. 每个阶段出口是一次 **Gate Review**：对照该阶段预注册阈值，产出 Go / No-Go / Pivot 备忘；
-2. No-Go 不自动等于项目停止——按 [roadmap 7.3](phase0-roadmap.md) 的失败点定位 Pivot 方向，走 ADR；
+2. No-Go 不自动等于项目停止——按 [roadmap 第 8 节](00-roadmap.md) 的失败点定位 Pivot 方向，走 ADR；
 3. 时间超出指示范围**不构成失败**；证据不足才构成失败；
 4. 任何阶段提前完成，可以提前进入下一阶段，但**不得跳过**。
 

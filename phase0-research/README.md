@@ -5,7 +5,7 @@
 目录性质: 阶段计划目录（方向导航，非设计文档）
 ---
 
-# research/ — INA Phase 0 阶段计划目录
+# phase0-research/ — INA Phase 0 阶段计划目录
 
 ## 这个目录是什么
 
@@ -28,13 +28,13 @@
 ## 两个目录的分工
 
 ```text
-research/      阶段计划：方向、问题、实验设计、门禁、成败去向   ← 先读这里
-experiments/   实验执行：数据集、运行记录、分析、决策备忘      ← 在这里做实验
+phase0-research/  阶段计划：方向、问题、实验设计、门禁、成败去向   ← 先读这里
+experiments/      实验执行：数据集、运行记录、分析、决策备忘      ← 在这里做实验
 ```
 
 规则：
 
-- 每个 Phase 开工前，读对应 `research/phases/phase-0.X-*.md`；
+- 每个 Phase 开工前，读对应 `phase0-research/phases/0.X-*.md`；
 - 每个 Phase 收尾时，在 `experiments/` 写运行记录与决策备忘；
 - 任何改变 v0.4.1 核心定义、Schema、Kill Gate 的决定，走 ADR（见 `V0.4.1_docs/06-协作模板/15-架构决策记录模板.md`），不在这里悄悄改。
 
@@ -42,11 +42,11 @@ experiments/   实验执行：数据集、运行记录、分析、决策备忘  
 
 ```text
 README.md                    ← 你现在在这里
-phase0-roadmap.md            ← 唯一导航：Thesis、RQ1-5、阶段总览、工程原则、成败去向
-  ├── phase0-architecture.md         ← Phase 0 架构图
-  ├── phase0-experiment-matrix.md    ← 全部实验一览与状态
-  ├── phase0-timeline.md             ← 时间线与阶段门禁
-  ├── phase0-first-experiment.md     ← 第一实验规格 EX-0.1-A
+00-roadmap.md         ← 唯一导航：Thesis、RQ1-5、阶段总览、工程原则、成败去向
+  ├── research-architecture.md         ← Phase 0 架构图
+  ├── experiment-matrix.md    ← 全部实验一览与状态
+  ├── timeline.md             ← 时间线与阶段门禁
+  ├── 01-experiment.md           ← 第一实验规格（Behavioral Delta Existence Test）
   └── phases/                        ← 六个阶段的详细设计
       ├── phase-0.0-research-setup.md
       ├── phase-0.1-delta-existence.md
