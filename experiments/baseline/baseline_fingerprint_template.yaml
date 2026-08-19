@@ -1,0 +1,55 @@
+# INA Phase 0 — Baseline Fingerprint 模板
+
+> 结构对齐 V0.4.1 文档 02/14 的 `baseline_fingerprint` 定义。
+> 使用 `experiments/evaluator/fingerprint.py` 自动采集；本文件是**结构模板与字段说明**，不是采集产物。
+>
+> 纪律：每次 run 前采集，run 后复核无 drift；Fingerprint 变化时该 run 不得进入正式统计。
+
+```yaml
+baseline_fingerprint:
+  id: "fp-<run-id>"            # 采集时自动生成
+  harness:
+    name: "python-runner"      # 最小脚本执行环境（非平台）
+    version: "0.1.0"           # run_agent.py 的 --harness-version
+  model:
+    provider: "mock | openai"  # 后端类型
+    name: "<model-name>"       # 真实模型名（预注册冻结）
+    version: "<model-version>" # 版本锁定
+    variant: null
+  system:
+    prompt_file: "experiments/baseline/system_prompt_v1.txt"
+    prompt_sha256: "<sha256>"  # 采集时自动计算
+    instruction_files: []
+    instruction_hashes: []
+  tools:
+    enabled: []                # Phase 0.1 无工具
+  permissions:
+    profile: "none"
+  skills:
+    enabled: []                # 基线臂无 skill
+  memory:
+    mode: "none"
+  runtime:
+    temperature: 0
+    reasoning_effort: null
+    context_policy: "fixed"
+    max_steps: 1
+  environment:
+    workspace_revision: "<git-short-rev>"   # 采集时自动获取
+    relevant_flags: []
+  uncontrolled_variables: []   # 如实登记，不要隐藏
+```
+
+## 字段责任
+
+| 字段 | 责任 |
+|---|---|
+| prompt_sha256 | 模型看到的 System Prompt 内容冻结；run 前后对比可发现 drift |
+| workspace_revision | 数据集/脚本版本与 run 的对应关系 |
+| uncontrolled_variables | 无法控制但可能影响行为的环境因素，必须登记（文档 14：uncontrolled 也要记录） |
+| model.version | 模型升级后旧 Conformance 结果不得自动继承为有效（文档 02） |
+
+## 模板 vs 采集
+
+- 本文件 = 字段说明模板；
+- 实际快照 = `run_agent.py` 写入 run 目录的 `baseline_fingerprint.yaml`（自动生成）；

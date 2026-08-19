@@ -1,0 +1,71 @@
+# Adaptation Contract — ac-evidence-discipline-v1（DRAFT）
+
+> 状态：**DRAFT — 靶点与验证项待 D_dev 基线实测后定稿**（01-experiment-001.md 第 4 节）。
+> 正式实验使用前必须：① D_dev 基线运行确认失败模式；② 预注册冻结本文件；③ 记录 sha256。
+> 本文件不是 Prompt。它是结构化契约；注入渲染在定稿后生成。
+
+```yaml
+adaptation_contract:
+  identity:
+    id: "ac-evidence-discipline-v1"
+    name: "科研证据判断纪律"
+    version: "0.1.0"
+    status: "DRAFT"
+
+  scope:
+    applies_to: "科研证据判断（声明+证据 → SUPPORT/REFUTE/NEUTRAL）"
+    precondition: "baseline system_prompt_v1.txt；模型 <预注册冻结>"
+
+  activation_conditions:        # 待 D_dev 实测确认（当前为候选）
+    - "证据语境与声明语境不一致（人群/条件/时间/场景）"
+    - "证据仅为相关关系而声明断言因果"
+    - "证据强度不足以支撑声明程度"
+    - "证据实际反驳声明"
+
+  desired_behavioral_effects:
+    effect_vector:
+      - {dimension: "context_mismatch_detection", direction: "increase"}
+      - {dimension: "correlation_causation_discrimination", direction: "increase"}
+      - {dimension: "support_precision", direction: "increase"}
+      - {dimension: "neutral_appropriateness", direction: "increase"}
+      - {dimension: "disconfirmation_reporting", direction: "increase"}
+
+  semantic_invariants:
+    - "证据直接支持声明时不得改判"
+    - "NEUTRAL ≠ REFUTE：证据相关但不充分时输出 NEUTRAL"
+    - "不引入机械反对"
+
+  forbidden_regressions:
+    - "三分类基础准确率不显著下降"
+    - "扰动不变性（D_pert）保持"
+    - "理由一致性不下降"
+
+  evaluation_contract:
+    verification_items: "见 01-experiment-001.md 第 6 节；Conformance Score 正式化在 Phase 0.3"
+    prescribed_labels:           # 失败模式 → 指定标签（effect_vector 的操作化）
+      context_mismatch: "NEUTRAL"
+      correlation_as_causation: "NEUTRAL"
+      insufficient_evidence: "NEUTRAL"
+      contradiction_softening: "REFUTE"
+
+  evidence:
+    source: "PENDING — D_dev 基线运行日志（定稿时附 hash）"
+    status: "待采集"
+    calibration_constraint: "EX-0.0-1 真实后端校准（qwen3.5:9b）：关键字触发器注入对真实模型无效；契约必须渲染为判断准则式行为规则，仅在失败类条目上验证效应（详见 results/EX-0.0-1-real-backend-findings.md）"
+
+  provenance:
+    author: "INA Phase 0 研究组"
+    license: "research-only"
+
+  revision_conditions:
+    - "D_dev 实测失败模式与候选不一致时，以实测为准修订靶点"
+    - "任何修订 = 新版本（v0.1.1），不得覆盖历史文件"
+```
+
+## 定稿清单（本文件从 DRAFT 转 FROZEN 前必须完成）
+
+- [ ] D_dev 40 条构造 + 标注完成（`experiments/data/dev.jsonl`）
+- [ ] 基线运行 N=10，确认实测失败模式（选定 activation_conditions）
+- [ ] prescribed_labels 与实测失败对齐
+- [ ] 渲染注入文本（delta 臂）与等量 Skill/Sham 对照文本生成
+- [ ] 本文件 sha256 记录 + 预注册（`experiments/results/preregistration.md`）

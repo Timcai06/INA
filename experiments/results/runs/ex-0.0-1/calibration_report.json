@@ -1,0 +1,24 @@
+{
+  "experiment": "EX-0.0-1",
+  "checks": {
+    "detection_rate": 1.0,
+    "false_positive": 0.0,
+    "reproducible": true,
+    "drift_detected": true
+  },
+  "thresholds": [
+    "detection >= 0.95",
+    "false_positive <= 0.05",
+    "reproducible",
+    "drift_detected"
+  ],
+  "verdict": "PASS",
+  "notes": {
+    "base_accuracy": 1.0,
+    "delta_accuracy": 0.5,
+    "base_rationale_consistency": 1.0,
+    "delta_rationale_consistency": 0.5,
+    "base_evidence_density": 0.25,
+    "delta_evidence_density": 0.25
+  }
+}

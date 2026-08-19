@@ -1,0 +1,27 @@
+baseline_fingerprint:
+  id: "fp-qwen3.5:9b-20260819T032248Z"
+  harness:
+    name: "python-runner"
+    version: "0.1.0"
+  model:
+    provider: "ollama"
+    name: "qwen3.5:9b"
+    version: "config-frozen"
+  system:
+    prompt_file: "/Users/tim/DEV/INA/experiments/baseline/system_prompt_v1.txt"
+    prompt_sha256: "c514a777bf967260bfe28c5aefbfc635c1d7512b64508a74e00706ccb959a999"
+  tools:
+    enabled: []
+  permissions:
+    profile: "none"
+  skills:
+    enabled: []
+  memory:
+    mode: "none"
+  runtime:
+    temperature: 0.0
+    max_steps: 1
+  environment:
+    workspace_revision: "eeb78b0"
+  uncontrolled_variables:
+    - "injection"

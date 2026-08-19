@@ -1,0 +1,13 @@
+{
+  "arm": "baseline",
+  "input": "/Users/tim/DEV/INA/experiments/data/calib_dev.jsonl",
+  "output": "experiments/results/runs/ex-0.0-1-real/base-0",
+  "prompt": "/Users/tim/DEV/INA/experiments/baseline/system_prompt_v1.txt",
+  "injection": "None",
+  "backend": "ollama",
+  "model": "None",
+  "base_url": "None",
+  "api_key": "None",
+  "temperature": "0.0",
+  "harness_version": "0.1.0"
+}
