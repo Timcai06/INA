@@ -1,0 +1,88 @@
+---
+文档版本: 0.1
+项目阶段: Phase 0 — Behavioral Evolution Validation
+最后更新: 2026-08-18
+阶段: 0.1
+---
+
+# Phase 0.1 — Behavioral Delta Existence
+
+> 对应实验：EX-0.1-A（主实验）、EX-0.1-B（移除/变异）
+> 回答：**RQ1**
+> 上游文档：V0.4.1_docs 14-A（Delta Causality 前半）
+
+## Objective
+
+证明一件事：**Delta 能改变 Agent 行为**——在固定 Baseline Fingerprint 上，注入结构化 Adaptation Contract 后，产生稳定、方向可预测、可归因的行为变化。
+
+本阶段**不**证明 Delta 优于 Skill（那是 0.2），不证明可迁移（那是 0.4），只证明存在性。
+
+## Research Question
+
+> RQ1：Agent 加入 Delta 后，是否产生稳定行为变化？
+
+反方假设（本阶段必须尝试杀死 INA）：H0-A（不存在稳定行为变化）；H0-B 弱形式（变化来自任意文本注入，与 Delta 结构无关）。
+
+## Experiment
+
+**EX-0.1-A（主实验）**：科研证据判断任务（规格见 [`../phase0-first-experiment.md`](../phase0-first-experiment.md)）。
+
+- G0 Baseline / G1 Baseline+Delta / G2 Prompt-Paraphrase 对照；
+- D_dev 识别实测失败 → 提取 Delta → 预注册 → D_test（隐藏集）正式评估；
+- 指标：失败类 flip rate、失败类 accuracy、macro-F1、kappa、附带损伤、run 方差、扰动不变性、人工盲评。
+
+**EX-0.1-B（因果性加固）**：
+
+- Removal Test：移除 Delta 后行为是否回退（回退率 ≥ 0.6）；
+- Mutation Test：修改 contract 字段（如把"→ NEUTRAL"改为"→ REFUTE"）是否产生**可预测**的方向变化；
+- Against-Prior：Delta 是否真正改变 Agent 的 prior（对同一证据的立场偏移）。
+
+## Implementation Scope
+
+- 科研证据判断数据集构造（120 条，人工标注，annotation protocol）；
+- 单模型 run 脚本（temperature 0，N=10）；
+- Delta 注入函数（结构化块确定性追加）+ 三组配置；
+- 指标计算与分析脚本、人工盲评工作流（Rubric + 记录模板）；
+- 预注册文档与决策备忘。
+
+## Forbidden Scope
+
+- 多模型 / 多 Harness（单模型单 Harness 是本阶段纪律）；
+- 结论性宣称（本阶段只输出判决备忘，不输出"INA 成立"）；
+- 任何产品形态代码；
+- 自动 Delta 提取（提取必须人工主导，否则混淆归因）。
+
+## Success Criteria
+
+（EX-0.1-A 预注册阈值为准，摘要）
+
+1. flip rate ≥ 0.6 且失败类 accuracy 提升 ≥ 20pp；
+2. 附带损伤 ≤ 5pp；run 方差 ≤ 3pp；扰动不变性 |Δ| ≤ 3pp；
+3. delta-consistent flip rate ≥ 0.7（人工盲评）；
+4. EX-0.1-B：Removal 回退率 ≥ 0.6；Mutation 方向可预测。
+
+## Kill Criteria
+
+（任一触发即 No-Go）
+
+1. G1 vs G0 无统计显著差异（行为不可注入）；
+2. 变化不稳定（方差 > 5pp）；
+3. 附带损伤 > 20pp（Delta 是覆盖不是增量）；
+4. 从 D_dev 提取不出任何实测失败（Delta 无落点）。
+
+## Deliverables
+
+```text
+数据集（dev/test/pert + 标注协议）
+Delta artifact（adaptation_contract.yaml + hash）
+预注册文档（阈值冻结，git commit）
+N=10 完整 run 记录 + Fingerprint 快照
+指标汇总 + confusion matrix + 盲评记录
+EX-0.1-B 结果（removal/mutation/against-prior）
+decision-memo.md：Go / No-Go
+```
+
+## 出口门禁
+
+Go → 进入 Phase 0.2（Skill Differentiation）。
+No-Go → 按 roadmap 7.3 失败点定位（行为不可变 → 基础设施野心死亡，Pivot 评估），走 ADR。
